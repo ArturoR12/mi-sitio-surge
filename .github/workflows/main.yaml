@@ -1,0 +1,31 @@
+name: "1er Parcial: Integracion continua de Surge.sh y Github Actions"
+
+# El flujo se activará automáticamente cada vez que hagas un 'push' a la rama main
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Permite ejecutar el flujo manualmente desde GitHub si es necesario
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Copiar el código del repositorio dentro del contenedor de GitHub
+      - name: Clonar código fuente
+        uses: actions/checkout@v4
+
+      # 2. Configurar el entorno de Node.js en el servidor de GitHub
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3. Instalar la herramienta de Surge de manera global en el contenedor
+      - name: Instalar Surge.sh
+        run: npm install -g surge
+
+      # 4. Ejecutar el despliegue automático usando tus Secrets seguros
+      - name: Desplegar en Surge.sh
+        run: surge ./ roman-desangles-parcial.surge.sh --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_LOGIN }}
