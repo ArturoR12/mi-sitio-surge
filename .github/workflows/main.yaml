@@ -23,4 +23,4 @@ jobs:
         run: npm install -g surge
 
       - name: Desplegar en Surge.sh
-        run: surge ./ rartu-desangles-parcial.surge.sh --token ${{ secrets.SURGE_TOKEN }} --login ${{ secrets.SURGE_LOGIN }}
+        run: surge ./ rartu-desangles-parcial.surge.sh --token "${{ secrets.SURGE_TOKEN }}" --login "${{ secrets.SURGE_LOGIN }}"
