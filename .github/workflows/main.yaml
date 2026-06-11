@@ -17,10 +17,15 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20
 
+      # Forzamos una instalación local limpia del paquete de surge
       - name: Instalar Surge.sh
-        run: npm install -g surge
+        run: npm install surge
 
+      # Ejecutamos usando variables de entorno nativas (env:) para evitar bloqueos
       - name: Desplegar en Surge.sh
-        run: surge ./ rartu-desangles-parcial.surge.sh --token "${{ secrets.SURGE_TOKEN }}" --login "${{ secrets.SURGE_LOGIN }}"
+        run: npx surge ./ rartu-desangles-parcial.surge.sh
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
